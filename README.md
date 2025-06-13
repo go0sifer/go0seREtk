@@ -1,4 +1,5 @@
-<!---                                          _____        _____                    
+```
+                                          _____        _____                    
  ______  _____  _____  ______  ______  __|__   |__  __|___  |__    __    __  __ 
 |   ___|/     \/     ||   ___||   ___||     |     ||   ___|    | _|  |_ |  |/ / 
 |   |  ||     ||  /  | `-.`-. |   ___||     \     ||   ___|    ||_    _||     \ 
@@ -17,7 +18,7 @@
   ░  Please see README.md for prerequisites!                          ░
   ░                                                                   ░
   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
---->
+```
   This script is provided as-is by go0se.
   Use, modify, and redistribute freely!
   If it breaks, you get to keep both pieces.
