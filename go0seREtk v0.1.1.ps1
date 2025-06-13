@@ -133,49 +133,56 @@ function Debloater {
 }
 
 function REMShortcuts {
+    # Because launching apps from the Start Menu is so 2010.
     Write-Host "[*] Creating desktop folder for tool shortcuts..." -ForegroundColor Cyan
+
     $desktopPath = [Environment]::GetFolderPath('Desktop')
     $shortcutFolder = Join-Path $desktopPath 'REM Tools'
+
     if (!(Test-Path $shortcutFolder)) {
         New-Item -Path $shortcutFolder -ItemType Directory | Out-Null
         Write-Host "[+] Created folder: $shortcutFolder" -ForegroundColor Green
     }
     else {
         Write-Host "[+] Folder already exists: $shortcutFolder" -ForegroundColor Green
+        Write-Host "# Reusing old folders: saving time and disk space since forever." -ForegroundColor DarkGray
     }
+
+    # We'll keep track of shortcut names so we don't create duplicates.
+    $createdNames = @{}
+
+    Write-Host "[*] Detecting Chocolatey-installed packages..." -ForegroundColor Cyan
+    $packages = choco list --local-only --limit-output | ForEach-Object { ($_ -split '\|')[0] }
 
     $shell = New-Object -ComObject WScript.Shell
     $count = 0
-    $createdNames = @{}
 
-    # 1. Shortcuts for Chocolatey-installed packages (using where.exe)
-    Write-Host "[*] Detecting Chocolatey-installed packages..." -ForegroundColor Cyan
-    $packages = choco list --local-only --limit-output | ForEach-Object { ($_ -split '\|')[0] }
     foreach ($pkg in $packages) {
-        $lnkName = "$pkg.lnk"
-        if ($createdNames.ContainsKey($lnkName)) { continue }
+        Write-Host "[*] Searching for executable for '$pkg'..." -ForegroundColor Cyan
         $exePath = & where.exe $pkg 2>$null | Select-Object -First 1
-        if ($exePath -and (Test-Path $exePath)) {
+        $lnkName = "$pkg.lnk"
+        if ($exePath -and (Test-Path $exePath) -and -not $createdNames.ContainsKey($lnkName)) {
             $shortcutPath = Join-Path $shortcutFolder $lnkName
-            if (!(Test-Path $shortcutPath)) {
-                $shortcut = $shell.CreateShortcut($shortcutPath)
-                $shortcut.TargetPath = $exePath
-                $shortcut.Save()
-                $createdNames[$lnkName] = $true
-                Write-Host "[+] Shortcut created for $pkg." -ForegroundColor Green
-                $count++
-            }
+            $shortcut = $shell.CreateShortcut($shortcutPath)
+            $shortcut.TargetPath = $exePath
+            $shortcut.Save()
+            $createdNames[$lnkName] = $true
+            Write-Host "[+] Shortcut created for $pkg." -ForegroundColor Green
+            $count++
+        }
+        elseif (-not $exePath) {
+            Write-Host "[-] No executable found for $pkg on PATH." -ForegroundColor Yellow
+            Write-Host "# Maybe it's hiding. Or maybe it's shy." -ForegroundColor DarkGray
         }
     }
 
-    # 2. Shortcuts for all files in C:\ProgramData\chocolatey\bin
+    # Now add shortcuts for everything in C:\ProgramData\chocolatey\bin, but don't duplicate names.
     Write-Host "[*] Adding shortcuts for all files in C:\ProgramData\chocolatey\bin..." -ForegroundColor Cyan
     $binFiles = Get-ChildItem -Path "$env:ProgramData\chocolatey\bin" -File -ErrorAction SilentlyContinue
     foreach ($file in $binFiles) {
         $lnkName = "$($file.BaseName).lnk"
-        if ($createdNames.ContainsKey($lnkName)) { continue }
-        $shortcutPath = Join-Path $shortcutFolder $lnkName
-        if (!(Test-Path $shortcutPath)) {
+        if (-not $createdNames.ContainsKey($lnkName)) {
+            $shortcutPath = Join-Path $shortcutFolder $lnkName
             $shortcut = $shell.CreateShortcut($shortcutPath)
             $shortcut.TargetPath = $file.FullName
             $shortcut.Save()
@@ -186,8 +193,10 @@ function REMShortcuts {
     }
 
     Write-Host "[*] $count shortcuts created in '$shortcutFolder'." -ForegroundColor Cyan
+    Write-Host "# If you don't see your favorite tool, try installing it again. Or yell at your computer." -ForegroundColor DarkGray
     Read-Host "Press Enter to return to the main menu..."
 }
+
 
 
 function NetworkSettingsShortcut {
