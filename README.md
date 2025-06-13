@@ -126,7 +126,8 @@ A step-by-step guide to creating a Reverse Engineering Malware (REM) lab using t
 The following tools are installed for analysis and utilities:
 
 - 7zip  
-- Sublime Text 4  
+- Sublime Text 4
+- GoogleChrome  
 - OpenJDK  
 - Ghidra  
 - HxD  
