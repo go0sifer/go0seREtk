@@ -223,14 +223,23 @@ function GoodTime {
     # Because every toolkit needs a break. Or at least a distraction.
     Write-Host "[*] Enjoy some ASCII art while you take a break!" -ForegroundColor Cyan
     Write-Host @'
-               #   ___                                       |"|      
-   __MMM__     #  <_*_>          ...        `  _ ,  '       _|_|_     
-    (o o)      #  (o o)         (. .)      -  (o)o)  -      (o o)     
-ooO--(_)--Ooo--8---(_)--Ooo-ooO--(_)--Ooo--ooO'(_)--Ooo-ooO--(_)--Ooo-
-      _                                        ___                    
-     ((_           +++          ()_()         /\#/\                   
-    (o o)         (o o)         (o o)        /(o o)\                  
-ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--`o'--Ooo-ooO--(_)--Ooo-              
+                      ,-------
+                     /
+         --.        /   ,-"""-.
+   ,-"""-.  `.     /  ,'\dHHb/ `.
+ ,'\dHHb/ `.  \   /  <>--HHHH--< )
+( >-HHHH--: >  | |   ()./"HHP \,'
+ `./"HHP\ ,' ,-' `-. () `-...-'.
+ ()`-...-()  F() ()J          ()
+              :: .:
+               : .;__
+      ,-"-"""---"""  ""--..
+     /-\/ \/#| || || |`-'##`.
+    |"   ,'  `-'`-'`-'`.   "_\
+    |_   |   ,-.,-.,-.  | _- / Krogg
+    `.-,-.,-.| ||_|| |,-./\,'
+      `-"""-._/"" "---"""-'
+
 '@ -ForegroundColor Yellow
     Write-Host "# You're welcome. Or I'm sorry. Hard to tell." -ForegroundColor DarkGray
     Read-Host "Press Enter to return to the main menu..."
