@@ -140,6 +140,7 @@ The following tools are installed for analysis and utilities:
 - dnSpyEx  
 - x64dbg (portable)  
 - Process Hacker  
+- System Informer
 - Eric Zimmerman's Tools  
 - Cmder  
 - Docker CLI  
