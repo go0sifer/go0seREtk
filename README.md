@@ -19,8 +19,7 @@
 ░                                                                   ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ```
-This script is provided as-is by go0se.  
-Use, modify, and redistribute freely!  
+This script is provided as-is by go0se. Use, modify, and redistribute freely!  
 If it breaks, you get to keep both pieces.
 ---
 
