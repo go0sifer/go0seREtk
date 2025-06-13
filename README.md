@@ -7,127 +7,172 @@
                                          |_____|      |_____|                   
 01100111 01101111 00110000 01110011 01100101 01010010 01000101 01110100 01101011
 
-  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-  ░  Script:        Reverse Engineering Malware Toolkit               ░
-  ░  Project:       go0seREtk                                         ░
-  ░  Version:       0.1.1                                             ░                                                             
-  ░  Author:        go0se                                             ░
-  ░  Date:          June 2025                                         ░
-  ░  Description:   Provides functions to set up basic a REM Lab.     ░
-  ░                                                                   ░
-  ░  Please see README.md for prerequisites!                          ░
-  ░                                                                   ░
-  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░  Script:        Reverse Engineering Malware Toolkit               ░
+░  Project:       go0seREtk                                         ░
+░  Version:       0.1.1                                             ░                                                             
+░  Author:        go0se                                             ░
+░  Date:          June 2025                                         ░
+░  Description:   Provides functions to set up a basic REM Lab.     ░
+░                                                                   ░
+░  Please see README.md for prerequisites!                          ░
+░                                                                   ░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ```
-  This script is provided as-is by go0se.
-  Use, modify, and redistribute freely!
-  If it breaks, you get to keep both pieces.
-
-
+This script is provided as-is by go0se.  
+Use, modify, and redistribute freely!  
+If it breaks, you get to keep both pieces.
+---
 
 # Go0seREtk
- - This guide walks through creating 3 Virtual Machines to be used to REM (Reverse Engineering Malware)
- - Two(2) of the machines will run Windows 10. One machine for Static Analysis, (No malware will execute on this machine) and one for Dynamic Analysis (Dirty machine where malware will run).
- - The Third(3) machine will be a linux machine. REMnux to be specific. This machine will act as the "internet" or a "listener" for our dynamic analysis and provide other RE tools.
 
-## Windows REM
+A step-by-step guide to creating a Reverse Engineering Malware (REM) lab using three virtual machines:
+
+- **Static Analysis VM** (Windows 10): No malware execution; for static analysis only.
+- **Dynamic Analysis VM** (Windows 10): "Dirty" machine for running malware samples.
+- **REMnux VM** (Linux): Functions as an isolated "internet"/listener and provides additional RE tools.
+
+---
+
+## 1. Windows REM Setup
 
 ### Pre-installation
- - Prepare a Windows 10+ virtual machine
-  - Install Windows in the virtual machine, for example using the raw Windows 10 ISO from https://www.microsoft.com/en-us/software-download/windows10ISO
 
-#### Ensure the requirements above are satisfied, including:
-  - Disable Windows Updates (at least until installation is finished)
-  - Disable Tamper Protection and any Anti-Malware solution (e.g., Windows Defender), preferably via Group Policy.
-   - To permanently disable real-time protection:
-   Open Local Group Policy Editor (type gpedit.msc in the search box)
-   Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection
-   Enable Turn off real-time protection
-   Restart the computer
-        
-  - To permanently disable Microsoft Defender:
-     - Open Local Group Policy Editor (type gpedit.msc in the search box)
-     - Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus
-     - Enable Turn off Microsoft Defender Antivirus
-     - Restart the computer
+- Prepare a Windows 10+ virtual machine.
+- Download the official Windows 10 ISO:  
+  https://www.microsoft.com/en-us/software-download/windows10ISO
 
-#### Enable script execution:
-  - ```Set-ExecutionPolicy Unrestricted -Force```
-   - If you receive an error saying the execution policy is overridden by a policy defined at a more specific scope, you may need to pass a scope in via ```Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force```. To view execution policies for all scopes, execute ```Get-ExecutionPolicy -List```.
+#### Required Configuration
 
-#### Key Steps:
- - Take a pre-installation VM snapshot. 
- - After installation take another VM snapshot
- - Make a full standalone clone of the VM. One will be your Static Analysis machine, and the other Dynamic. Name them accordingly.
- - Take a snapshot of the clone.
+- **Disable Windows Updates** (at least until setup is complete).
+- **Disable Tamper Protection and Anti-Malware** (e.g., Windows Defender) using Group Policy:
+  - Open Local Group Policy Editor (`gpedit.msc`)
+  - Navigate to:  
+    `Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection`
+  - Enable **Turn off real-time protection**. Restart the VM.
+  - To fully disable Defender:
+    - Go to:  
+      `Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus`
+    - Enable **Turn off Microsoft Defender Antivirus**. Restart the VM.
 
-## Linux REM
+- **Enable Script Execution**:
+  ```
+  Set-ExecutionPolicy Unrestricted -Force
+  ```
+  - If you get scope errors, use:
+    ```
+    Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+    ```
+    - To check all scopes:
+      ```
+      Get-ExecutionPolicy -List
+      ```
+
+#### Key Steps
+
+- Take a pre-installation VM snapshot.
+- After installation, take another snapshot.
+- Make a **full standalone clone** of the VM:
+  - One for Static Analysis (clean)
+  - One for Dynamic Analysis (dirty)
+  - Name them accordingly.
+- Take a snapshot of each clone.
+
+---
+
+## 2. Linux REM Setup (REMnux)
 
 ### Install REMnux
- - https://docs.remnux.org/install-distro/get-virtual-appliance
- - https://docs.remnux.org/install-distro/install-from-scratch
 
-Using the OVA is much faster. Download it and open it in your VM software.
+- Official documentation:  
+  - [Get Virtual Appliance (OVA)](https://docs.remnux.org/install-distro/get-virtual-appliance)
+  - [Install from Scratch](https://docs.remnux.org/install-distro/install-from-scratch)
 
- - Update REMnux
-  - ```remnux upgrade```
-See REMnux docs for more information.
-https://docs.remnux.org/
+- **OVA method is fastest**:  
+  Download and import into your VM software.
 
+- **Update REMnux** after install:
+  ```
+  remnux upgrade
+  ```
+  - See [REMnux Docs](https://docs.remnux.org/) for details.
 
+---
 
-## VM Setup for the Dynamic Windows VM and REMnux
- - After all 3 VMs are installed and put into a restricted network(host-only mode) you need to configure the networks on the VMs.
- - On the static analyis VM it's up to you if you want to leave it internet connected. You should not be running malware here so it should be safe to keep it connected. If theres any chance you think you might run malware here, disable the network interface before doing so.
- - Switch both the Dynamic Windows VM and REMnux VM to host-only mode. Alternativly, you can make a new virtual network and set it to Host-Only and join both of your VMs to that network.
- - On the REMnux VM you can type ```myip``` in the terminal and it will display its IP address.
- - On the Windows machine set a static IPv4 address to be an address within the same network as the REMnux VM.
- - Subnet mask will typically be 255.255.255.0 unless you changed it.
- - Set the Default Gateway and Preferred DNS to the REMnux VM's IP address.
- - Save the config and test pinging between both machines. Also test pinging an internet facing IP address such as 8.8.8.8 to confirm no internet access.
+## 3. Network Configuration
 
+- After installing all 3 VMs, set up a **restricted (host-only) network**.
+- **Static Analysis VM**:  
+  - Optional: Leave internet-connected (safe as long as malware is not executed).
+  - If you might run malware, disable the network interface first.
+- **Dynamic Analysis VM & REMnux VM**:
+  - Set both to host-only mode (or create a dedicated host-only network).
+- **REMnux VM**:
+  - Get IP with:
+    ```
+    myip
+    ```
+- **Dynamic Windows VM**:
+  - Set a static IPv4 address in the same subnet as REMnux.
+  - Subnet mask: `255.255.255.0` (unless changed).
+  - Set **Default Gateway** and **Preferred DNS** to REMnux VM's IP.
+  - Save and test connectivity:
+    - Ping between both machines.
+    - Ping `8.8.8.8` to confirm **no internet access**.
 
+---
 
- ## Tools installed with this script package:
+## 4. Tools Installed with this Toolkit
 
-**REMBRCXI**:
-7zip
-sublimetext4
-openjdk
-ghidra
-hxd
-python3
-pebear
-visualstudio-installer
-reshack
-die
-pestudio
-dnspyex
-x64dbg.portable
-processhacker
-ericzimmermantools
-cmder
-docker-cli
-capa
-exiftool
-floss
-010editor
-sysinternals
-regshot
-dependencywalker
-tor-browser
-fiddler
-winscp
-cyberchef
-exeinfo
-file
-apimonitor
+The following tools are installed for analysis and utilities:
 
-## Optional Addon in the folder:
-**Windows10Debloater-master**
-Script/Utility/Application to debloat Windows 10, to remove Windows pre-installed unnecessary applications, stop some telemetry functions, stop Cortana from being used as your Search Index, disable unnecessary scheduled tasks, and more...
-https://github.com/Sycnex/Windows10Debloater
+- 7zip  
+- Sublime Text 4  
+- OpenJDK  
+- Ghidra  
+- HxD  
+- Python3  
+- PE-bear  
+- Visual Studio Installer  
+- Resource Hacker  
+- DIE (Detect It Easy)  
+- PEStudio  
+- dnSpyEx  
+- x64dbg (portable)  
+- Process Hacker  
+- Eric Zimmerman's Tools  
+- Cmder  
+- Docker CLI  
+- capa  
+- ExifTool  
+- FLOSS  
+- 010 Editor  
+- Sysinternals Suite  
+- Regshot  
+- Dependency Walker  
+- Tor Browser  
+- Fiddler  
+- WinSCP  
+- CyberChef  
+- exeinfo  
+- file  
+- API Monitor  
 
-Windows10Debloater.ps1
-Windows10DebloaterGUI.ps1
-Windows10SysPrepDebloater.ps1
+---
+
+## 5. Optional Addon: Windows 10 Debloater
+
+**Windows10Debloater-master**  
+A script/utility to debloat Windows 10 by removing unnecessary apps, disabling telemetry, stopping Cortana as your search index, disabling unnecessary scheduled tasks, and more.
+
+- Official repo:  
+  https://github.com/Sycnex/Windows10Debloater
+
+Included scripts:
+- `Windows10Debloater.ps1`
+- `Windows10DebloaterGUI.ps1`
+- `Windows10SysPrepDebloater.ps1`
+
+---
+
+*For questions, suggestions, or issues, please contact go0se in Discord or open an issue in the project repository.*
