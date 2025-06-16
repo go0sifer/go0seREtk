@@ -157,7 +157,8 @@ The following tools are installed for analysis and utilities:
 - CyberChef  
 - exeinfo  
 - file  
-- API Monitor  
+- API Monitor
+- TCPView  
 
 ---
 
