@@ -153,12 +153,13 @@ The following tools are installed for analysis and utilities:
 - Dependency Walker  
 - Tor Browser  
 - Fiddler  
-- WinSCP  
+- Wireshark  
 - CyberChef  
 - exeinfo  
 - file  
 - API Monitor
-- TCPView  
+- TCPView
+- Burp Suite Free  
 
 ---
 
