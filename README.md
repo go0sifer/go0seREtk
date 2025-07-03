@@ -152,7 +152,8 @@ The following tools are installed for analysis and utilities:
 - Regshot  
 - Dependency Walker  
 - Tor Browser  
-- Fiddler  
+- Fiddler
+- Nmap
 - Wireshark  
 - CyberChef  
 - exeinfo  
