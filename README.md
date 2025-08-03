@@ -160,7 +160,8 @@ The following tools are installed for analysis and utilities:
 - file  
 - API Monitor
 - TCPView
-- Burp Suite Free  
+- Burp Suite Free
+- Fakenet  
 
 ---
 
