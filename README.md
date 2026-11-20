@@ -135,6 +135,7 @@ The following tools are installed for analysis and utilities:
 - PE-bear  
 - Visual Studio Installer  
 - Resource Hacker  
+- [Resource Cracker](https://www.pelock.com/products/resource-cracker)
 - DIE (Detect It Easy)  
 - PEStudio  
 - dnSpyEx  
